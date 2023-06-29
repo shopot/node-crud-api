@@ -1,3 +1,3 @@
 export * from './constants';
-export { createEndpointKey } from './create-endpoint-key';
-export { parseRequestUuid } from './parse-request-uuid';
+export { createEndpointKey } from './createEndpointKey';
+export { parseRequestUuid } from './parseRequestUuid';
