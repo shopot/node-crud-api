@@ -1,8 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import { CreateUserDto } from '../dto/CreateUser.dto';
 
-import { CreateUserDto } from './user.types';
-
-/** Class representing a user. */
 export class User {
   id: string;
 
