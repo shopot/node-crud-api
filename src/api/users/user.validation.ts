@@ -1,11 +1,44 @@
-export const validateSourceDto = (source: { [key: string]: string | string[] | number }) => {
+export const validateCreateUserDto = (resource: { [key: string]: string | string[] | number }) => {
   return (
-    source.username !== undefined &&
-    typeof source.username === 'string' &&
-    source.age !== undefined &&
-    typeof source.age === 'number' &&
-    source.hobbies !== undefined &&
-    Array.isArray(source.hobbies) &&
-    source.hobbies.every((value) => typeof value === 'string')
+    resource.username !== undefined &&
+    typeof resource.username === 'string' &&
+    resource.age !== undefined &&
+    typeof resource.age === 'number' &&
+    resource.hobbies !== undefined &&
+    Array.isArray(resource.hobbies) &&
+    resource.hobbies.every((value) => typeof value === 'string')
   );
+};
+export const validatePutUserDto = (resource: { [key: string]: string | string[] | number }) => {
+  const attrCount = Object.keys(resource).length;
+
+  if (attrCount > 3) {
+    return false;
+  }
+
+  const result = Object.keys(resource)
+    .join('')
+    .replace(/username|age|hobbies/g, '');
+
+  if (result !== '') {
+    return false;
+  }
+
+  if (resource.username !== undefined && typeof resource.username !== 'string') {
+    return false;
+  }
+
+  if (resource.age !== undefined && typeof resource.age !== 'number') {
+    return false;
+  }
+
+  if (
+    resource.hobbies !== undefined &&
+    (!Array.isArray(resource.hobbies) ||
+      resource.hobbies.some((value) => typeof value !== 'string'))
+  ) {
+    return false;
+  }
+
+  return true;
 };
