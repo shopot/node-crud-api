@@ -4,7 +4,7 @@ import { UsersRepository } from '../repositories/UsersRepository';
 import { User } from '../model/User';
 import { PutUserDto } from '../dto/PutUser.dto';
 import { CreateUserDto } from '../dto/CreateUser.dto';
-import { validateCreateUserDto, validatePutUserDto } from '../user.validation';
+import { validateCreateUserDto, validatePutUserDto } from '../validators/users.validation';
 import { Http400Error } from '../../../common/errors/Http400Error';
 import { Http500Error } from '../../../common/errors/Http500Error';
 import { HTTP404Error } from '../../../common/errors/Http404Error';
