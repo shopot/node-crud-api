@@ -1,6 +1,9 @@
 import { parse } from 'node:url';
+import { IncomingMessage } from 'http';
 
-export const parseRequestUuid = (endpoint: string, url: string): string => {
+export const parseRequestUuid = (endpoint: string, request: IncomingMessage): string => {
+  const url = request.url || '';
+
   const { pathname } = parse(url);
 
   return (
