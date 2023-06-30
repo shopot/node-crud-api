@@ -1,5 +1,3 @@
-export type PutUserDto = {
-  readonly username: string;
-  readonly age: number;
-  readonly hobbies: string[];
-};
+import { CreateUserDto } from './CreateUser.dto';
+
+export type PutUserDto = CreateUserDto;
