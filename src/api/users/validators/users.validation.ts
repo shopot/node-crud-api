@@ -9,6 +9,7 @@ export const validateCreateUserDto = (resource: { [key: string]: string | string
     resource.hobbies.every((value) => typeof value === 'string')
   );
 };
+
 export const validatePutUserDto = (resource: { [key: string]: string | string[] | number }) => {
   const attrCount = Object.keys(resource).length;
 
