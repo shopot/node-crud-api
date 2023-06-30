@@ -9,15 +9,15 @@ export class UsersRepository {
     this.store = [];
   }
 
-  async getUsers(): Promise<User[]> {
+  public async getUsers(): Promise<User[]> {
     return this.store;
   }
 
-  async getUserById(id: string): Promise<User | null> {
-    return this.store.find((user) => (user.id = id)) || null;
+  public async getUserById(id: string): Promise<User | null> {
+    return this.store.find((user) => user.id === id) || null;
   }
 
-  async addUser(fields: CreateUserDto): Promise<User> {
+  public async addUser(fields: CreateUserDto): Promise<User> {
     const user = new User(fields);
 
     this.store.push(user);
@@ -25,7 +25,7 @@ export class UsersRepository {
     return user;
   }
 
-  async updateUserById(id: string, fields: PutUserDto): Promise<User | null> {
+  public async updateUserById(id: string, fields: PutUserDto): Promise<User | null> {
     const editIndex = this.store.findIndex((user) => user.id === id);
 
     if (editIndex === -1) {
@@ -37,7 +37,7 @@ export class UsersRepository {
     return this.store[editIndex];
   }
 
-  async removeUserById(id: string): Promise<User | null> {
+  public async removeUserById(id: string): Promise<User | null> {
     const removeIndex = this.store.findIndex((user) => user.id === id);
 
     if (removeIndex === -1) {
@@ -49,5 +49,9 @@ export class UsersRepository {
     this.store.splice(removeIndex, 1);
 
     return removedUser;
+  }
+
+  public async hasUser(id: string): Promise<boolean> {
+    return !!(await this.store.find((user) => user.id === id));
   }
 }
