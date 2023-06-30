@@ -1,9 +1,9 @@
-import { UsersService } from './services/UsersService';
-import { UsersController } from './controllers/UsersController';
-import { ApiRoute } from '../../common/types/ApiRoute.type';
+import { UsersController } from '../controllers/UsersController';
+import { ApiRoute } from '../../../common/types/ApiRoute.type';
+import { usersFactory } from '../factories/users.factory';
 
-const createUsersRoutes = (usersService: UsersService) => {
-  const userController = new UsersController(usersService);
+const createUsersRoutes = () => {
+  const userController = new UsersController(usersFactory.createService());
 
   return {
     '/api/users:get': (request, response) => userController.getAll({ request, response }),

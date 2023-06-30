@@ -1,12 +1,10 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { factory } from '../factories';
-import { createUsersRoutes } from '../api/users/user.routes';
+
+import { createUsersRoutes } from '../api/users/routes/users.routes';
 import { DEFAULT_HEADER } from '../common/constants';
 import { HttpStatusCode } from '../common/HttpStatusCode';
 
-const usersService = factory.user.generateInstance();
-
-const usersRoutes = createUsersRoutes(usersService);
+const usersRoutes = createUsersRoutes();
 
 const routes = {
   ...usersRoutes,
