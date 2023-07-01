@@ -8,12 +8,14 @@ import { DEFAULT_HEADER } from '../../../common/constants';
 import { parseRequestUuid } from '../../../util/parseRequestUuid';
 import { APP_USERS_ENDPOINT } from '../../../config';
 import { RequestDto } from '../dto/Request.dto';
-import { Http500Error } from '../../../common/errors/Http500Error';
+import { BaseController } from '../../../common/BaseController';
 
-export class UsersController {
+export class UsersController extends BaseController {
   readonly userService: UsersService;
 
   constructor(userService: UsersService) {
+    super();
+
     this.userService = userService;
   }
 
@@ -24,15 +26,7 @@ export class UsersController {
   }
 
   public async create({ request, response }: HandleParams): Promise<void> {
-    const [data] = await once(request as EventEmitter, 'data');
-
-    let requestObject: RequestDto;
-
-    try {
-      requestObject = JSON.parse(data.toString());
-    } catch {
-      throw new Http500Error();
-    }
+    const requestObject = (await this.getBody(request)) as RequestDto;
 
     response
       .writeHead(HttpStatusCode.CREATED, DEFAULT_HEADER)
@@ -48,17 +42,9 @@ export class UsersController {
   }
 
   public async update({ request, response }: HandleParams): Promise<void> {
-    const [data] = await once(request as EventEmitter, 'data');
+    const requestObject = (await this.getBody(request)) as RequestDto;
 
     const id = parseRequestUuid(APP_USERS_ENDPOINT, request);
-
-    let requestObject: RequestDto;
-
-    try {
-      requestObject = JSON.parse(data.toString());
-    } catch {
-      throw new Http500Error();
-    }
 
     const user = await this.userService.putById(id || '', requestObject);
 
