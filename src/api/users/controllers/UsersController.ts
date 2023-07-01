@@ -45,7 +45,7 @@ export class UsersController extends BaseController {
 
     const user = await this.userService.putById(id || '', requestObject);
 
-    response.writeHead(HttpStatusCode.CREATED, DEFAULT_HEADER).end(JSON.stringify(user));
+    response.writeHead(HttpStatusCode.OK, DEFAULT_HEADER).end(JSON.stringify(user));
   }
 
   public async delete({ request, response }: HandleParams): Promise<void> {
