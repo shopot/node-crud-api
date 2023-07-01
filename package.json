@@ -10,6 +10,7 @@
     "start:prod-multi": "npm run build && cross-env NODE_ENV=production node ./dist/index.js -- --with-balancer",
     "build": "tsc",
     "test": "jest ./__tests__",
+    "test:verbose": "jest --verbose --detectOpenHandles ./__tests__",
     "lint": "tsc --noEmit && eslint ./src --ext .ts --report-unused-disable-directives --max-warnings 0",
     "pretty": "prettier --write .",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
