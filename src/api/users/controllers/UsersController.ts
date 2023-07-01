@@ -1,6 +1,3 @@
-import { once } from 'node:events';
-import EventEmitter from 'events';
-
 import { UsersService } from '../services/UsersService';
 import { HandleParams } from '../../../common/types/HandleParams.type';
 import { HttpStatusCode } from '../../../common/HttpStatusCode';
