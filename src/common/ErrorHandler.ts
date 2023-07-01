@@ -2,7 +2,12 @@ import { BaseError } from './errors/BaseError';
 
 class ErrorHandler {
   public handleError(err: Error): void {
-    console.log(err.name);
+    /** Use this for a logging errors implementation
+    console.log(err.name); */
+
+    if (err.name) {
+      return;
+    }
   }
 
   public isTrustedError(error: Error): boolean {
