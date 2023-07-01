@@ -22,15 +22,19 @@ export class UsersService {
 
   public async create(resource: CreateUserDto): Promise<User> {
     if (!validateCreateUserDto(resource)) {
-      throw new Http400Error();
+      throw new Http400Error('invalid request payload');
     }
 
     return await this.usersRepository.addUser(resource);
   }
 
   public async putById(id: string, resource: PutUserDto): Promise<User | null> {
-    if (!validateUUID(id) || !validatePutUserDto(resource)) {
-      throw new Http400Error();
+    if (!validateUUID(id)) {
+      throw new Http400Error('required parameter missing or invalid: id');
+    }
+
+    if (!validatePutUserDto(resource)) {
+      throw new Http400Error('invalid request payload');
     }
 
     const isUserExists = await this.usersRepository.hasUser(id);
@@ -44,7 +48,7 @@ export class UsersService {
 
   public async readById(id: string): Promise<User | null> {
     if (!validateUUID(id)) {
-      throw new Http400Error();
+      throw new Http400Error('required parameter missing or invalid: id');
     }
 
     if (!(await this.hasUser(id))) {
