@@ -1,8 +1,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
 import { createUsersRoutes } from '../api/users/routes/users.routes';
-import { DEFAULT_HEADER } from '../common/constants';
-import { HttpStatusCode } from '../common/HttpStatusCode';
+import { HTTP404Error } from '../common/errors/Http404Error';
 
 const usersRoutes = createUsersRoutes();
 
@@ -16,7 +15,7 @@ const routes = {
       req: IncomingMessage;
     }
   ): Promise<void> => {
-    response.writeHead(HttpStatusCode.NOT_FOUND, DEFAULT_HEADER).end('not found');
+    throw new HTTP404Error();
   },
 };
 
