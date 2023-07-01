@@ -1,11 +1,13 @@
-import { createEndpointKey } from './util/createEndpointKey';
 import { IncomingMessage, ServerResponse } from 'http';
+
+import { createEndpointKey } from './util/createEndpointKey';
 import { APP_ENDPOINTS } from './config';
 import { routes } from './routes/routes';
 import { errorHandler } from './common/ErrorHandler';
 import { BaseError } from './common/errors/BaseError';
 import { DEFAULT_HEADER } from './common/constants';
 import { HttpStatusCode } from './common/HttpStatusCode';
+import { ErrorMessage } from './common/errors/ErrorMessage';
 
 const handler = (
   request: IncomingMessage,
@@ -45,7 +47,7 @@ const handlerError = (
 
       response.write(
         JSON.stringify({
-          error: 'internal server error',
+          error: ErrorMessage.INTERNAL_SERVER_ERROR,
         })
       );
     }

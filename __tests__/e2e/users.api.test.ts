@@ -2,6 +2,7 @@ import request from 'supertest';
 import { server } from '../../src';
 import { HttpStatusCode } from '../../src/common/HttpStatusCode';
 import { APP_USERS_ENDPOINT } from '../../src/config';
+import { ErrorMessage } from '../../src/common/errors/ErrorMessage';
 
 afterAll((done) => {
   server.close();
@@ -76,13 +77,13 @@ describe('Resources are created by sending HTTP POST requests', () => {
     expect(response.statusCode).toBe(HttpStatusCode.BAD_REQUEST);
   });
 
-  it('should return "invalid request payload" when trying to create user with invalid data payload', async () => {
+  it('should return INVALID_REQUEST_PAYLOAD when trying to create user with invalid data payload', async () => {
     const response = await request(server)
       .post(APP_USERS_ENDPOINT)
       .send(JSON.stringify(mockedCreateUserInvalidData.invalidAttrValue));
 
     const { error } = response.body;
 
-    expect(error).toEqual('invalid request payload');
+    expect(error).toEqual(ErrorMessage.INVALID_REQUEST_PAYLOAD);
   });
 });

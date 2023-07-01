@@ -8,6 +8,7 @@ import { validateCreateUserDto, validatePutUserDto } from '../validators/users.v
 import { Http400Error } from '../../../common/errors/Http400Error';
 import { Http500Error } from '../../../common/errors/Http500Error';
 import { HTTP404Error } from '../../../common/errors/Http404Error';
+import { ErrorMessage } from '../../../common/errors/ErrorMessage';
 
 export class UsersService {
   usersRepository: UsersRepository;
@@ -22,7 +23,7 @@ export class UsersService {
 
   public async create(resource: CreateUserDto): Promise<User> {
     if (!validateCreateUserDto(resource)) {
-      throw new Http400Error('invalid request payload');
+      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PAYLOAD);
     }
 
     return await this.usersRepository.addUser(resource);
@@ -30,17 +31,17 @@ export class UsersService {
 
   public async putById(id: string, resource: PutUserDto): Promise<User | null> {
     if (!validateUUID(id)) {
-      throw new Http400Error('required parameter missing or invalid: id');
+      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PARAM_ID);
     }
 
     if (!validatePutUserDto(resource)) {
-      throw new Http400Error('invalid request payload');
+      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PAYLOAD);
     }
 
     const isUserExists = await this.usersRepository.hasUser(id);
 
     if (!isUserExists) {
-      throw new HTTP404Error('user not exists');
+      throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
     }
 
     return await this.usersRepository.updateUserById(id, resource);
@@ -48,11 +49,11 @@ export class UsersService {
 
   public async readById(id: string): Promise<User | null> {
     if (!validateUUID(id)) {
-      throw new Http400Error('required parameter missing or invalid: id');
+      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PARAM_ID);
     }
 
     if (!(await this.hasUser(id))) {
-      throw new Http400Error('user not exists');
+      throw new Http400Error(ErrorMessage.USER_NOT_EXISTS);
     }
 
     return await this.usersRepository.getUserById(id);
@@ -60,11 +61,11 @@ export class UsersService {
 
   public async deleteById(id: string): Promise<string> {
     if (!validateUUID(id)) {
-      throw new Http400Error('required parameter missing or invalid: id');
+      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PARAM_ID);
     }
 
     if (!(await this.hasUser(id))) {
-      throw new Http400Error('user not exists');
+      throw new Http400Error(ErrorMessage.USER_NOT_EXISTS);
     }
 
     const user = await this.usersRepository.removeUserById(id);
