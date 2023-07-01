@@ -4,22 +4,19 @@
     "target": "ESNext",
     "module": "CommonJS",
     "lib": [
-      "ESNext",
-      "DOM"
+      "ESNext"
     ],
     "moduleResolution": "node",
     "outDir": "./dist",
     "sourceMap": false,
+    "declarationMap": false,
+    "declaration": false,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
     "noEmitOnError": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
-  },
-  "ts-node": {
-    "esm": true
   },
   "include": [
     "./src/**/*"
