@@ -38,9 +38,7 @@ export class UsersService {
       throw new Http400Error(ErrorMessage.INVALID_REQUEST_PAYLOAD);
     }
 
-    const isUserExists = await this.usersRepository.hasUser(id);
-
-    if (!isUserExists) {
+    if (!(await this.hasUser(id))) {
       throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
     }
 
@@ -53,7 +51,7 @@ export class UsersService {
     }
 
     if (!(await this.hasUser(id))) {
-      throw new Http400Error(ErrorMessage.USER_NOT_EXISTS);
+      throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
     }
 
     return await this.usersRepository.getUserById(id);
@@ -65,7 +63,7 @@ export class UsersService {
     }
 
     if (!(await this.hasUser(id))) {
-      throw new Http400Error(ErrorMessage.USER_NOT_EXISTS);
+      throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
     }
 
     const user = await this.usersRepository.removeUserById(id);
