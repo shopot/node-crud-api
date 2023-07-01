@@ -41,11 +41,14 @@ const setup = () => {
     },
   };
 
+  const UUID = 'eeec98f9-16c0-4ada-827a-fdb0bc46a449';
+
   return {
     mockedUser1,
     mockedUser2,
     mockedUserMissed,
     mockedUsersInvalid,
+    UUID,
   };
 };
 
@@ -117,13 +120,9 @@ describe('Resources are created by sending HTTP POST requests', () => {
 
 describe('Resources are updated by sending HTTP PUT requests', () => {
   it('should return 200 after update with valid data payload', async () => {
-    const response = await request(server)
-      .get(APP_USERS_ENDPOINT)
-      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
-
-    const user = response.body[0];
-
-    const { id } = user;
+    const { id } = (
+      await request(server).get(APP_USERS_ENDPOINT).set(ACCEPT_HEADER.field, ACCEPT_HEADER.val)
+    ).body[0];
 
     const responseUpdated = await request(server)
       .put(`${APP_USERS_ENDPOINT}/${id}`)
@@ -161,13 +160,9 @@ describe('Resources are updated by sending HTTP PUT requests', () => {
   it(`should return INVALID_REQUEST_PAYLOAD when trying to update user with invalid data payload`, async () => {
     const { mockedUsersInvalid } = setup();
 
-    const response = await request(server)
-      .get(APP_USERS_ENDPOINT)
-      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
-
-    const user = response.body[0];
-
-    const { id } = user;
+    const { id } = (
+      await request(server).get(APP_USERS_ENDPOINT).set(ACCEPT_HEADER.field, ACCEPT_HEADER.val)
+    ).body[0];
 
     const responseUpdated = await request(server)
       .put(`${APP_USERS_ENDPOINT}/${id}`)
@@ -177,5 +172,77 @@ describe('Resources are updated by sending HTTP PUT requests', () => {
     expect(responseUpdated.statusCode).toBe(HttpStatusCode.BAD_REQUEST);
 
     expect(responseUpdated.body.error).toEqual(ErrorMessage.INVALID_REQUEST_PAYLOAD);
+  });
+});
+
+describe('Resources are deleted by sending HTTP DELETE requests', () => {
+  it('should return 204 after delete with valid user id', async () => {
+    const { id } = (
+      await request(server).get(APP_USERS_ENDPOINT).set(ACCEPT_HEADER.field, ACCEPT_HEADER.val)
+    ).body[0];
+
+    const responseDeleted = await request(server)
+      .delete(`${APP_USERS_ENDPOINT}/${id}`)
+      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
+
+    expect(responseDeleted.statusCode).toBe(HttpStatusCode.DELETED);
+  });
+
+  it('should return 404 and USER_NOT_EXISTS after delete with invalid user id', async () => {
+    const { UUID } = setup();
+
+    const responseDeleted = await request(server)
+      .delete(`${APP_USERS_ENDPOINT}/${UUID}`)
+      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
+
+    expect(responseDeleted.statusCode).toBe(HttpStatusCode.NOT_FOUND);
+
+    expect(responseDeleted.body.error).toBe(ErrorMessage.USER_NOT_EXISTS);
+  });
+});
+
+describe('Resources are read data by sending HTTP GET requests', () => {
+  it('should return not empty users list', async () => {
+    const { mockedUser1 } = setup();
+
+    // Create user for the test
+    await request(server).post(APP_USERS_ENDPOINT).send(JSON.stringify(mockedUser1));
+
+    const response = await request(server)
+      .get(APP_USERS_ENDPOINT)
+      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
+
+    expect(response.statusCode).toBe(HttpStatusCode.OK);
+
+    expect(response.body.length).not.toBe(0);
+  });
+
+  it('should return a user data after send a valid user id', async () => {
+    const { mockedUser1 } = setup();
+
+    // Create user for the test
+    await request(server).post(APP_USERS_ENDPOINT).send(JSON.stringify(mockedUser1));
+
+    const { id } = (
+      await request(server).get(APP_USERS_ENDPOINT).set(ACCEPT_HEADER.field, ACCEPT_HEADER.val)
+    ).body[0];
+
+    const response = await request(server)
+      .get(`${APP_USERS_ENDPOINT}/${id}`)
+      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
+
+    expect(response.statusCode).toBe(HttpStatusCode.OK);
+  });
+
+  it('should return 404 and USER_NOT_EXISTS after send a invalid user id', async () => {
+    const { UUID } = setup();
+
+    const response = await request(server)
+      .get(`${APP_USERS_ENDPOINT}/${UUID}`)
+      .set(ACCEPT_HEADER.field, ACCEPT_HEADER.val);
+
+    expect(response.statusCode).toBe(HttpStatusCode.NOT_FOUND);
+
+    expect(response.body.error).toBe(ErrorMessage.USER_NOT_EXISTS);
   });
 });
