@@ -1,4 +1,4 @@
-# Node.js - CRUD API
+# Simple CRUD API
 
 Implement simple CRUD API using in-memory database underneath.
 
