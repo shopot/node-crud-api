@@ -51,8 +51,4 @@ export class UsersRepository implements UserRepositoryInterface {
 
     return removedUser;
   }
-
-  public async hasUser(id: string): Promise<boolean> {
-    return !!(await this.store.find((user) => user.id === id));
-  }
 }
