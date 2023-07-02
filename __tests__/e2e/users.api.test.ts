@@ -114,7 +114,7 @@ describe('Resources are created by sending HTTP POST requests', () => {
       .post(APP_USERS_ENDPOINT)
       .send(JSON.stringify({ firstname: 'John Doe' }));
 
-    expect(response.body.error).toEqual(ErrorMessage.INVALID_REQUEST_PAYLOAD);
+    expect(response.body.error).toEqual(ErrorMessage.BAD_REQUEST);
   });
 });
 
@@ -171,7 +171,7 @@ describe('Resources are updated by sending HTTP PUT requests', () => {
 
     expect(responseUpdated.statusCode).toBe(HttpStatusCode.BAD_REQUEST);
 
-    expect(responseUpdated.body.error).toEqual(ErrorMessage.INVALID_REQUEST_PAYLOAD);
+    expect(responseUpdated.body.error).toEqual(ErrorMessage.BAD_REQUEST);
   });
 });
 
@@ -197,7 +197,7 @@ describe('Resources are deleted by sending HTTP DELETE requests', () => {
 
     expect(responseDeleted.statusCode).toBe(HttpStatusCode.NOT_FOUND);
 
-    expect(responseDeleted.body.error).toBe(ErrorMessage.USER_NOT_EXISTS);
+    expect(responseDeleted.body.error).toBe(ErrorMessage.USER_NOT_FOUND);
   });
 });
 
@@ -243,6 +243,6 @@ describe('Resources are read data by sending HTTP GET requests', () => {
 
     expect(response.statusCode).toBe(HttpStatusCode.NOT_FOUND);
 
-    expect(response.body.error).toBe(ErrorMessage.USER_NOT_EXISTS);
+    expect(response.body.error).toBe(ErrorMessage.USER_NOT_FOUND);
   });
 });
