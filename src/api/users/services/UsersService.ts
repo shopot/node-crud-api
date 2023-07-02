@@ -1,6 +1,5 @@
 import { validate as validateUUID } from 'uuid';
 
-import { UsersRepository } from '../repositories/UsersRepository';
 import { User } from '../model/User';
 import { PutUserDto } from '../dto/PutUser.dto';
 import { CreateUserDto } from '../dto/CreateUser.dto';
@@ -9,11 +8,12 @@ import { Http400Error } from '../../../common/errors/Http400Error';
 import { Http500Error } from '../../../common/errors/Http500Error';
 import { HTTP404Error } from '../../../common/errors/Http404Error';
 import { ErrorMessage } from '../../../common/errors/ErrorMessage';
+import { UserRepositoryInterface } from '../repositories/UserRepositoryInterface';
 
 export class UsersService {
-  usersRepository: UsersRepository;
+  usersRepository: UserRepositoryInterface;
 
-  constructor(usersRepository: UsersRepository) {
+  constructor(usersRepository: UserRepositoryInterface) {
     this.usersRepository = usersRepository;
   }
 
