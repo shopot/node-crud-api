@@ -2,8 +2,8 @@ import { UsersController } from '../controllers/UsersController';
 import { ApiRoute } from '../../../common/types/ApiRoute.type';
 import { usersFactory } from '../factories/users.factory';
 
-const createUsersRoutes = () => {
-  const userController = new UsersController(usersFactory.createService());
+const createUsersRoutes = (isCluster = false) => {
+  const userController = new UsersController(usersFactory.createService(isCluster));
 
   return {
     '/api/users:get': (request, response) => userController.getAll({ request, response }),
