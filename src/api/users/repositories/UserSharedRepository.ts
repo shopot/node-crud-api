@@ -4,21 +4,8 @@ import { User } from '../model/User';
 import { CreateUserDto } from '../dto/CreateUser.dto';
 import { PutUserDto } from '../dto/PutUser.dto';
 import { UserRepositoryInterface } from './UserRepositoryInterface';
-
-export type ProcessMessage<T> = {
-  data?: T;
-  status?: number;
-  message: string;
-};
-
-export const enum UserActions {
-  GET_USERS = 'GET_USERS',
-  GET_USER_BY_ID = 'GET_USER_BY_ID',
-  ADD_USER = 'ADD_USER',
-  UPDATE_USER_BY_ID = 'UPDATE_USER_BY_ID',
-  REMOVE_USER_BY_ID = 'REMOVE_USER_BY_ID',
-  HAS_USER = 'HAS_USER',
-}
+import { UserActions } from '../types/UserActions';
+import { ProcessMessage } from '../types/ProcessMessage';
 
 export class UserSharedRepository implements UserRepositoryInterface {
   public async getUsers(): Promise<User[]> {
@@ -51,13 +38,6 @@ export class UserSharedRepository implements UserRepositoryInterface {
   public async removeUserById(id: string): Promise<User | null> {
     return this.createRequest<User | null>({
       action: UserActions.REMOVE_USER_BY_ID,
-      payload: { id },
-    });
-  }
-
-  public async hasUser(id: string): Promise<boolean> {
-    return this.createRequest<boolean>({
-      action: UserActions.HAS_USER,
       payload: { id },
     });
   }
