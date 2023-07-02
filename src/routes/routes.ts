@@ -3,7 +3,7 @@ import process from 'node:process';
 import cluster from 'node:cluster';
 
 import { createUsersRoutes } from '../api/users/routes/users.routes';
-import { HTTP404Error } from '../common/errors/Http404Error';
+import { Http404Error } from '../common/errors/Http404Error';
 
 const isCluster = process.env.API_MODE === 'cluster' && cluster.isWorker;
 
@@ -17,7 +17,7 @@ const routes = {
     request: IncomingMessage,
     response: ServerResponse<IncomingMessage> & { req: IncomingMessage }
   ): Promise<void> => {
-    throw new HTTP404Error();
+    throw new Http404Error();
   },
 };
 
