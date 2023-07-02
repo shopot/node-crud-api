@@ -76,6 +76,6 @@ export class UsersService {
       throw new Http404Error(ErrorMessage.USER_NOT_FOUND);
     }
 
-    return user.id.toString();
+    return String(user.id);
   }
 }
