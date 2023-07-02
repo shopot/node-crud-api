@@ -6,7 +6,7 @@ import { CreateUserDto } from '../dto/CreateUser.dto';
 import { validateCreateUserDto, validatePutUserDto } from '../validators/users.validation';
 import { Http400Error } from '../../../common/errors/Http400Error';
 import { Http500Error } from '../../../common/errors/Http500Error';
-import { HTTP404Error } from '../../../common/errors/Http404Error';
+import { Http404Error } from '../../../common/errors/Http404Error';
 import { ErrorMessage } from '../../../common/errors/ErrorMessage';
 import { UserRepositoryInterface } from '../repositories/UserRepositoryInterface';
 
@@ -23,10 +23,14 @@ export class UsersService {
 
   public async create(resource: CreateUserDto): Promise<User> {
     if (!validateCreateUserDto(resource)) {
-      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PAYLOAD);
+      throw new Http400Error();
     }
 
-    return await this.usersRepository.addUser(resource);
+    try {
+      return await this.usersRepository.addUser(resource);
+    } catch {
+      throw new Http500Error();
+    }
   }
 
   public async putById(id: string, resource: PutUserDto): Promise<User | null> {
@@ -35,14 +39,16 @@ export class UsersService {
     }
 
     if (!validatePutUserDto(resource)) {
-      throw new Http400Error(ErrorMessage.INVALID_REQUEST_PAYLOAD);
+      throw new Http400Error();
     }
 
-    if (!(await this.hasUser(id))) {
-      throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
+    const user = await this.usersRepository.updateUserById(id, resource);
+
+    if (user === null) {
+      throw new Http404Error(ErrorMessage.USER_NOT_FOUND);
     }
 
-    return await this.usersRepository.updateUserById(id, resource);
+    return user;
   }
 
   public async readById(id: string): Promise<User | null> {
@@ -50,11 +56,13 @@ export class UsersService {
       throw new Http400Error(ErrorMessage.INVALID_REQUEST_PARAM_ID);
     }
 
-    if (!(await this.hasUser(id))) {
-      throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
+    const user = await this.usersRepository.getUserById(id);
+
+    if (user === null) {
+      throw new Http404Error(ErrorMessage.USER_NOT_FOUND);
     }
 
-    return await this.usersRepository.getUserById(id);
+    return user;
   }
 
   public async deleteById(id: string): Promise<string> {
@@ -62,20 +70,12 @@ export class UsersService {
       throw new Http400Error(ErrorMessage.INVALID_REQUEST_PARAM_ID);
     }
 
-    if (!(await this.hasUser(id))) {
-      throw new HTTP404Error(ErrorMessage.USER_NOT_EXISTS);
-    }
-
     const user = await this.usersRepository.removeUserById(id);
 
     if (user === null) {
-      throw new Http500Error();
+      throw new Http404Error(ErrorMessage.USER_NOT_FOUND);
     }
 
     return user.id.toString();
-  }
-
-  private async hasUser(id: string): Promise<boolean> {
-    return await this.usersRepository.hasUser(id);
   }
 }
