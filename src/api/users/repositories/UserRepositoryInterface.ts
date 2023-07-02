@@ -12,6 +12,4 @@ export interface UserRepositoryInterface {
   updateUserById: (id: string, fields: PutUserDto) => Promise<User | null>;
 
   removeUserById: (id: string) => Promise<User | null>;
-
-  hasUser: (id: string) => Promise<boolean>;
 }
