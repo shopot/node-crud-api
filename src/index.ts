@@ -1,10 +1,13 @@
+import 'dotenv/config';
 import { createServer } from 'node:http';
+
 import handler from './handler';
+import { setup } from './setup';
 
-const PORT = process.env.PORT || 3000;
+const { isCluster, port, createCluster } = setup();
 
-const server = createServer(handler);
+const server = createServer(isCluster ? createCluster(port) : handler);
 
-server.listen(PORT, () => console.log(`Server is running at http://localhost:${PORT}`));
+server.listen(port, () => console.log(`Server is running at http://localhost:${port}`));
 
 export { server };
