@@ -1,9 +1,11 @@
 import process from 'node:process';
 import cluster from 'node:cluster';
+
+import { APP_PORT } from './config';
 import { createCluster } from './cluster/createCluster';
 
 export const setup = () => {
-  const _defaultPort = Number(process.env.PORT || 3000);
+  const _defaultPort = Number(process.env.PORT || APP_PORT);
 
   const isCluster = process.env.API_MODE === 'cluster' && cluster.isMaster;
 
