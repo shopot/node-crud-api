@@ -37,6 +37,14 @@ Build and start production server:
 ```
 $ npm run start:prod
 ```
+Start development server with Cluster API and balancing:
+```
+$ npm run start:dev:multi
+```
+Build and start production server with Cluster API and balancing:
+```
+$ npm run start:prod:multi
+```
 Run end-to-end (e2e) API test:
 ```
 $ npm run test
