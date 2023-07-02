@@ -1,8 +1,9 @@
 import { User } from '../model/User';
 import { PutUserDto } from '../dto/PutUser.dto';
 import { CreateUserDto } from '../dto/CreateUser.dto';
+import { UserRepositoryInterface } from './UserRepositoryInterface';
 
-export class UsersRepository {
+export class UsersRepository implements UserRepositoryInterface {
   store: User[];
 
   constructor() {
