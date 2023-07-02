@@ -1,6 +1,6 @@
 import { IncomingMessage } from 'http';
 
-import { HTTP404Error } from './errors/Http404Error';
+import { Http404Error } from './errors/Http404Error';
 import { ErrorMessage } from './errors/ErrorMessage';
 
 export class BaseController {
@@ -19,7 +19,7 @@ export class BaseController {
           try {
             resolve(data ? JSON.parse(data) : {});
           } catch {
-            throw new HTTP404Error(ErrorMessage.INVALID_REQUEST_PAYLOAD);
+            throw new Http404Error(ErrorMessage.BAD_REQUEST);
           }
         })
         .on('error', () => {
