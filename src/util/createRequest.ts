@@ -1,7 +1,7 @@
 import { IncomingMessage, request, ServerResponse } from 'http';
 
-import { API_HOSTNAME } from '../../config';
-import { HttpStatusCode } from '../../common/HttpStatusCode';
+import { API_HOSTNAME } from '../config';
+import { HttpStatusCode } from '../common/HttpStatusCode';
 
 export const createRequest = (
   req: IncomingMessage,
