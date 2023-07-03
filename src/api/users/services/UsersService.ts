@@ -1,14 +1,15 @@
 import { validate as validateUUID } from 'uuid';
 
+import { UserRepositoryInterface } from '../repositories/UserRepositoryInterface';
 import { User } from '../model/User';
 import { PutUserDto } from '../dto/PutUser.dto';
+import { validateCreateUserDto } from '../validators/validateCreateUserDto';
+import { validatePutUserDto } from '../validators/validatePutUserDto';
 import { CreateUserDto } from '../dto/CreateUser.dto';
-import { validateCreateUserDto, validatePutUserDto } from '../validators/users.validation';
 import { Http400Error } from '../../../common/errors/Http400Error';
 import { Http500Error } from '../../../common/errors/Http500Error';
 import { Http404Error } from '../../../common/errors/Http404Error';
 import { ErrorMessage } from '../../../common/errors/ErrorMessage';
-import { UserRepositoryInterface } from '../repositories/UserRepositoryInterface';
 
 export class UsersService {
   usersRepository: UserRepositoryInterface;
