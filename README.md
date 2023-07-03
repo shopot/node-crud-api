@@ -46,6 +46,8 @@ Build and start production server with Cluster API and balancing:
 $ npm run start:prod:multi
 ```
 Run end-to-end (e2e) API test:
+
+You must stop all production or development server before run tests
 ```
 $ npm run test
 ```
