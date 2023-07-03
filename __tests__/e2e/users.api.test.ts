@@ -109,7 +109,7 @@ describe('Resources are created by sending HTTP POST requests', () => {
     expect(response.statusCode).toBe(HttpStatusCode.BAD_REQUEST);
   });
 
-  it('should return INVALID_REQUEST_PAYLOAD when trying to create user with invalid data payload', async () => {
+  it('should return "Bad request" when trying to create user with invalid data payload', async () => {
     const response = await request(server)
       .post(APP_USERS_ENDPOINT)
       .send(JSON.stringify({ firstname: 'John Doe' }));
@@ -157,7 +157,7 @@ describe('Resources are updated by sending HTTP PUT requests', () => {
     expect(responseUpdated.body).toEqual({ ...user, username: 'New Batman' });
   });
 
-  it(`should return INVALID_REQUEST_PAYLOAD when trying to update user with invalid data payload`, async () => {
+  it(`should return "Bad request" when trying to update user with invalid data payload`, async () => {
     const { mockedUsersInvalid } = setup();
 
     const { id } = (
@@ -188,7 +188,7 @@ describe('Resources are deleted by sending HTTP DELETE requests', () => {
     expect(responseDeleted.statusCode).toBe(HttpStatusCode.DELETED);
   });
 
-  it('should return 404 and USER_NOT_EXISTS after delete with invalid user id', async () => {
+  it('should return 404 and "User not found" after delete with invalid user id', async () => {
     const { UUID } = setup();
 
     const responseDeleted = await request(server)
@@ -234,7 +234,7 @@ describe('Resources are read data by sending HTTP GET requests', () => {
     expect(response.statusCode).toBe(HttpStatusCode.OK);
   });
 
-  it('should return 404 and USER_NOT_EXISTS after send a invalid user id', async () => {
+  it('should return 404 and "User not found" after send a invalid user id', async () => {
     const { UUID } = setup();
 
     const response = await request(server)
