@@ -7,7 +7,7 @@ import { HttpStatusCode } from '../common/HttpStatusCode';
 import { ErrorMessage } from '../common/errors/ErrorMessage';
 import { BaseError } from '../common/errors/BaseError';
 import { UsersService } from '../api/users/services/UsersService';
-import { InternalMessage } from './types/InternalMessage';
+import { InternalMessage } from '../common/types/InternalMessage';
 
 export const createWorkerListener = (worker: Worker, sharedService: UsersService) => {
   return async (message: InternalMessage) => {
