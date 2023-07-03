@@ -4,13 +4,13 @@ import { IncomingMessage, ServerResponse } from 'http';
 
 import { clusterFactory } from './factories/cluster.factory';
 import { createWorkerListener } from './createWorkerListener';
-import { createRequest } from './util/createRequest';
+import { createRequest } from '../util/createRequest';
 import { API_HOSTNAME } from '../config';
 
 export const createCluster = (port: number) => {
   const cpusCount = cpus().length;
 
-  const sharedService = clusterFactory.createService();
+  const sharedService = clusterFactory.createUsersService();
 
   const workers: number[] = [];
 

@@ -1,7 +1,7 @@
 import { usersFactory } from '../../api/users/factories/users.factory';
 
-const createService = () => {
+const createUsersService = () => {
   return usersFactory.createService(false);
 };
 
-export const clusterFactory = { createService };
+export const clusterFactory = { createUsersService };
